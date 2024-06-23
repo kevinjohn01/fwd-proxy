@@ -28,11 +28,35 @@ def get_search_results(phrase, proxy_url=None):
     for item in soup.find_all(class_='mw-page-title-main'):
         title = item.get_text()
 
+    categories = []
+    for cat in soup.find_all(class_='mw-normal-catlinks'):
+        for a in cat.find_all('li'):
+            categories.append(a.get_text())
+
     link = search_url
-    date, category = None, None
-    results.append({"title": title, "link": link, "content": content, "date": date, "category":category})
+    date = get_wikipedia_article_creation_date(phrase)
+    results.append({"title": title, "link": link, "content": content, "createdAt": date, "category":categories})
     
     return results
+
+def get_wikipedia_article_creation_date(title):
+    # Mengambil tanggal dari page history
+    encoded_title = urllib.parse.quote(title)
+    history_url = f"https://en.wikipedia.org/w/index.php?title={encoded_title}&action=history&dir=prev"
+    headers = {'User-Agent': 'Mozilla/5.0'}
+    response = requests.get(history_url, headers=headers)
+    html_content = response.content
+    
+    soup = BeautifulSoup(html_content, 'html.parser')
+    first_revision = soup.find('a', class_='mw-changeslist-date')
+    creation_date = first_revision.get_text() if first_revision else 'Unknown'
+    try:
+        creation_date_obj = datetime.datetime.strptime(creation_date, '%H:%M, %d %B %Y')
+        creation_date_formatted = creation_date_obj.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+    except ValueError:
+        creation_date_formatted = 'Unknown'
+    
+    return creation_date_formatted
 
 def get_modified_phrase(phrase):
     split_phrase = phrase.split(" ")
