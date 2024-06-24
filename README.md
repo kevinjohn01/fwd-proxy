@@ -95,4 +95,4 @@ Salah satu file hasil _scraping_ untuk _command_ `./run_scraper.sh "proxy server
 
 ### Related Links Scraper
 ![Related Links Scraper](img/related-links-scraper.png)
-Salah satu file hasil _scraping_ untuk _command_ `python tes.txt`<br>
+Salah satu file hasil _scraping_ untuk _command_ `python src/link_scraper.py tes.txt`<br>
