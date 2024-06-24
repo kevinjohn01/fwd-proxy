@@ -61,11 +61,11 @@ Contoh:
 ### Related Links Scraper
 - Jalankan program dengan perintah
 ```
-python link_scraper [filename]
+python src/link_scraper.py [filename]
 ```
 Contoh:
 ```
-python link_scraper tes.txt
+python src/link_scraper.py tes.txt
 ```
 
 - Tekan `Ctrl+C` pada keyboard jika ingin menghentikan proses _scraping_

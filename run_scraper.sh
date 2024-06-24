@@ -10,7 +10,7 @@ PHRASE=$1
 PROXY_URL=$2
 
 if [ -z "$PROXY_URL" ]; then
-    python scraper.py "$PHRASE"
+    python src/scraper.py "$PHRASE"
 else
-    python scraper.py "$PHRASE" "$PROXY_URL"
+    python src/scraper.py "$PHRASE" "$PROXY_URL"
 fi
