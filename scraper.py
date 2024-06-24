@@ -3,9 +3,8 @@ from bs4 import BeautifulSoup
 import json
 import sys
 import datetime
-import urllib
 
-def get_search_results(phrase, proxy_url=None):
+def get_info(phrase, proxy_url=None):
     # Membuat URL pencarian
     filtered_phrase = get_modified_phrase(phrase) #In case the phrase consist of more than 1 word
     search_url = f"https://en.wikipedia.org/wiki/{filtered_phrase}"
@@ -33,7 +32,7 @@ def get_search_results(phrase, proxy_url=None):
         for a in cat.find_all('li'):
             categories.append(a.get_text())
 
-    link = search_url
+    link = response.url
     date = get_wikipedia_article_creation_date(phrase)
     results.append({"title": title, "link": link, "content": content, "createdAt": date, "category":categories})
     
@@ -41,7 +40,7 @@ def get_search_results(phrase, proxy_url=None):
 
 def get_wikipedia_article_creation_date(title):
     # Mengambil tanggal dari page history
-    encoded_title = urllib.parse.quote(title)
+    encoded_title = get_modified_phrase(title)
     history_url = f"https://en.wikipedia.org/w/index.php?title={encoded_title}&action=history&dir=prev"
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(history_url, headers=headers)
@@ -68,7 +67,7 @@ def get_modified_phrase(phrase):
             filtered_phrase += "_"
     return filtered_phrase
 
-def save_results_to_json(results, phrase):
+def save_to_json(results, phrase):
     # Agar tidak tertimpa untuk phrase yang sama
     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     filename = f"{phrase.replace(' ', '_')}_{timestamp}.json"
@@ -83,5 +82,5 @@ if __name__ == "__main__":
     phrase = sys.argv[1]
     proxy_url = sys.argv[2] if len(sys.argv) > 2 else None
     
-    results = get_search_results(phrase, proxy_url)
-    save_results_to_json(results, phrase)
+    results = get_info(phrase, proxy_url)
+    save_to_json(results, phrase)
