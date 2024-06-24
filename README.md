@@ -11,6 +11,12 @@ Sebuah program yang dapat digunakan untuk mengambil data dari suatu situs wikipe
 Program ini adalah program scraper untuk mengambil _link-link_ terkait dari sekumpulan _link_ wikipedia yang diberikan. Program ini berjalan secara rekursif, yang berarti program juga mengambil data _link_ terkait dari _link-link_ yang sudah didapatkan sebelumnya. Batasan untuk program ini adalah program harus dihentikan di tengah dengan menekan `Ctrl+C` pada keyboard, agar data yang diambil tidak terlalu lama dan banyak. Tidak ada _link_ yang di-_scrape_ dua kali. File JSON berisi data tentang judul, konten, tanggal pembuatan, serta daftar _link_ artikel terkait.
 
 ## Cara Menjalankan Program
+- Clone repository ini ke local computer dengan command
+```
+git clone https://github.com/kevinjohn01/fwd-proxy
+```
+
+- Buka _command prompt_ dari direktori tempat _repository_ di-_clone_
 ### Forward Proxy
 - Menginstall Nodejs jika belum terdapat pada sistem komputer pada `https://nodejs.org/en/download/package-manager`
 - Install nodemon dengan command 
